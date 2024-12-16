@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.5.2",
     "cra-template-typescript": "1.2.0",
     "customize-cra": "^1.0.0",
-    "react": "^19.0.0",
+    "react": "^18.3.1",
     "react-app-rewired": "^2.2.1",
-    "react-dom": "^19.0.0",
+    "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1"
@@ -39,14 +40,20 @@
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-typescript": "^7.26.3",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/customize-cra": "^1.0.8",
+    "@types/jest": "^29.5.14",
     "antd": "^5.22.5",
     "babel-loader": "^9.2.1",
+    "babel-plugin-module-resolver": "^5.0.2",
     "bcrypt": "^5.1.1",
     "husky": "^9.1.7",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "ts-node": "^10.9.2"
   }
 }

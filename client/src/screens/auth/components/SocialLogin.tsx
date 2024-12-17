@@ -1,6 +1,6 @@
-import { Button, Image, Typography } from 'antd'
+import { Button, Typography } from 'antd'
 import React from 'react';
-const { Text, Title, Paragraph } = Typography;
+const { Text } = Typography;
 
 const SocialLogin = () => {
     return (

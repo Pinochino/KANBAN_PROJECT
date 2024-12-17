@@ -1,9 +1,10 @@
-import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
+import { Button, Checkbox, Form, Input, message, Space, Typography } from 'antd';
 import Card from 'antd/es/card/Card';
 import FormItem from 'antd/es/form/FormItem';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SocialLogin from './components/SocialLogin';
+import handleAPI from '@/apis/handleApi';
 const { Text, Title, Paragraph } = Typography;
 
 interface FormProps {
@@ -16,15 +17,26 @@ const RegisterPage = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [isRemember, setIsRemember] = React.useState<boolean>(false);
 
-    const handleLogin = (values: { email: string, password: string }) => {
+    const handleLogin = async (values: FormProps) => {
         console.log(values);
+        setIsLoading(true);
+        const api = `/auth/register`
+        try {
+            const res = await handleAPI(api, values, 'post');
+            console.log('Login response:', res);
+        } catch (error) {
+            console.error('Login error:', error);
+            message.error(`Error ${error.code}: ${error.message}`)
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
         <>
             <Card>
                 <div className="text-center">
-                    <img src="https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338507_1280.png" alt="" srcset="" className="logo" />
+                    <img src="https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338507_1280.png" alt="" className="logo" />
                     <Title level={2}>Log in to your account</Title>
                     <Paragraph type="secondary">Welcome back! Please enter your details</Paragraph>
                 </div>
@@ -61,13 +73,26 @@ const RegisterPage = () => {
                                 required: true,
                                 message: 'Please enter your password',
                             },
+                            () => ({
+                                validator: (_, value) => {
+                                    if (value && value.length < 6) {
+                                        return Promise.reject(
+                                            new Error("Password has at least 6 characters")
+                                        );
+                                    } else {
+                                        return Promise.resolve();
+                                    }
+                                }
+                            })
                         ]}
                     >
                         <Input.Password placeholder="input password" autoComplete={'new-password'} />
                     </FormItem>
 
                     <div className="mt-4 mb-3">
-                        <Button type="primary" className="w-100" size="large" onClick={() => form.submit()}>
+                        <Button type="primary" className="w-100" size="large" onClick={() => form.submit()}
+                            loading={isLoading}
+                        >
                             Login
                         </Button>
                     </div>

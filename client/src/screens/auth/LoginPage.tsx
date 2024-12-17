@@ -5,6 +5,7 @@ import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { Link } from 'react-router-dom';
 import SocialLogin from './components/SocialLogin';
+import handleAPI from '@/apis/handleApi';
 const { Text, Title, Paragraph } = Typography;
 
 interface FormProps {
@@ -15,18 +16,26 @@ interface FormProps {
 
 const LoginPage = () => {
     const [form] = Form.useForm();
-    const [data, setData] = React.useState<FormProps>({});
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [isRemember, setIsRemember] = React.useState<boolean>(false);
 
-    const handleLogin = (values: FormProps) => {
+    const handleLogin = async (values: FormProps) => {
         console.log(values);
+        setIsLoading(true);
+        try {
+            const res = await handleAPI('/auth/login', values, 'post');
+            console.log('Login response:', res);
+        } catch (error) {
+            console.error('Login error:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
     return (
         <>
             <Card>
                 <div className="text-center">
-                    <img src="https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338507_1280.png" alt="" srcset="" className="logo" />
+                    <img src="https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338507_1280.png" alt="" className="logo" />
                     <Title level={2}>Log in to your account</Title>
                     <Paragraph type="secondary">Welcome back! Please enter your details</Paragraph>
                 </div>

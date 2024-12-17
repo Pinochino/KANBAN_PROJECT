@@ -4,13 +4,16 @@ import express, { Request, Response } from 'express';
 import { errorHandler } from './src/middleware/handleException';
 import { connectDb } from './src/models/ConnectDb';
 import { appConfig } from './src/configs/AppConfig';
+import { routers } from './src/routers/router';
 
 
 const app = express();
 
+
 appConfig(app);
 app.use(errorHandler);
 connectDb(app);
+routers(app);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World')

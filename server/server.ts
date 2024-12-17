@@ -2,8 +2,8 @@ require('dotenv').config();
 import express, { Request, Response } from 'express';
 
 import { errorHandler } from './src/middleware/handleException';
-import { appConfig } from './src/config/appConfig';
-import { connectDb } from './src/db/ConnectDb';
+import { connectDb } from './src/models/ConnectDb';
+import { appConfig } from './src/configs/AppConfig';
 
 
 const app = express();

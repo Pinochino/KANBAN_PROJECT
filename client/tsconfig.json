@@ -2,6 +2,11 @@
     "compilerOptions": {
         "jsx": "react",
         "baseUrl": ".",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true, 
+        "module": "commonjs", 
+        "target": "es5", 
+        "strict": true,
         "paths": {
             "@/*": ["src/*"]
         }

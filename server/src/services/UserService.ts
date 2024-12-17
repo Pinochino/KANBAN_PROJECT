@@ -3,6 +3,7 @@ import UserModel from "../models/UserModel";
 import { CompareEncode, EncodedPassowrd } from "../utils/EncodedPassword";
 
 class UserService {
+  
   async createUser(data: {
     username: string;
     email: string;
@@ -20,6 +21,8 @@ class UserService {
         ...data,
         password: encodePassword,
       });
+
+      
       return user;
     } catch (error: any) {
       throw new BadRequestError({ message: `Error: ${error.message}` });
@@ -29,11 +32,11 @@ class UserService {
   async checkByEmailAndPass(data: {
     email: string;
     password: string;
-  }): Promise<boolean> {
+  }){
     try {
       const user = await UserModel.findOne({ email: data.email }).exec();
       if (!user) {
-        throw new Error("User have not been created");
+        throw new Error("Your account have not been existed");
       }
       const isEqual = await CompareEncode(data.password, String(user.password));
 
@@ -41,7 +44,10 @@ class UserService {
         return false;
       }
 
-      return true;
+      return {
+        checked: true,
+        data: user,
+      };
     } catch (error: any) {
       throw new BadRequestError({ message: `Error: ${error.message}` });
     }

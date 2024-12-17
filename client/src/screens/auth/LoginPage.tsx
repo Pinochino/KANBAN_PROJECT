@@ -1,11 +1,13 @@
 import React from 'react';
 
 import Card from 'antd/es/card/Card';
-import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
+import { Button, Checkbox, Form, Input, message, Space, Typography } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { Link } from 'react-router-dom';
 import SocialLogin from './components/SocialLogin';
 import handleAPI from '@/apis/handleApi';
+import { useDispatch } from 'react-redux';
+import { addAuth } from '@/redux/reducers/authReducer';
 const { Text, Title, Paragraph } = Typography;
 
 interface FormProps {
@@ -19,13 +21,18 @@ const LoginPage = () => {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [isRemember, setIsRemember] = React.useState<boolean>(false);
 
+    const dispatch = useDispatch();
+
     const handleLogin = async (values: FormProps) => {
         console.log(values);
         setIsLoading(true);
         try {
-            const res = await handleAPI('/auth/login', values, 'post');
-            console.log('Login response:', res);
-        } catch (error) {
+            const res: any = await handleAPI('/auth/login', values, 'post');
+            message.success(res.message)
+            res.data && dispatch(addAuth(res.data));
+
+        } catch (error: any) {
+            message.error(error.message)
             console.error('Login error:', error);
         } finally {
             setIsLoading(false);

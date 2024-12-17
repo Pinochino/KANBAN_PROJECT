@@ -3,8 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { LoginPage, RegisterPage } from '@/screens';
 
 
-
-
 const AuthRouter = () => {
     return (
         <div className="container-fluid">

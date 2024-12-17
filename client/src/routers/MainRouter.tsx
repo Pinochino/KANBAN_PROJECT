@@ -1,8 +1,9 @@
+import HomeScreen from '@/screens/HomeScreen'
 import React from 'react'
 
 const MainRouter = () => {
     return (
-        <div>MainRouter</div>
+        <div><HomeScreen /></div>
     )
 }
 

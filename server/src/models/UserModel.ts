@@ -4,6 +4,7 @@ interface IUser {
     username?: String;
     email: String;
     password: String;
+    rule: Number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -26,6 +27,10 @@ const UserSchema = new Schema<IUser>({
         type: String,
         min: [5, "Password has at least 5 characters"],
         required: true
+    },
+    rule: {
+        type: Number,
+        default: 1
     }
 }, {
     timestamps: {

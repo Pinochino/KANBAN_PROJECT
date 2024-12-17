@@ -6,11 +6,10 @@ const SocialLogin = () => {
     return (
         <div>
             <Button
-                with='100%'
                 size='large'
                 icon={
                     <img
-                        with={24}
+                        width={24}
                         height={24}
                         src='https://img.icons8.com/?size=100&id=V5cGWnc9R4xj&format=png&color=000000'
                         alt='logo' />

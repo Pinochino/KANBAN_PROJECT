@@ -15,15 +15,17 @@ message.config({
 
 function App() {
   return (
-    <ConfigProvider
-      theme={{
-        token: {},
-        components: {},
-      }}>
-      <Provider store={store} children={undefined}>
-        <Routers />
-      </Provider>
-    </ConfigProvider>
+    <>
+      <ConfigProvider
+        theme={{
+          token: {},
+          components: {},
+        }}>
+        <Provider store={store}>
+          <Routers />
+        </Provider>
+      </ConfigProvider>
+    </>
   );
 }
 

@@ -52,7 +52,7 @@ class UserController {
 
       if (!isChecked.checked) {
         res.status(400).json({
-          message: "fail to login",
+          message: "Tài khoản đăng nhập không đúng. Vui lòng kiểm tra lại password hoặc email",
         });
       }
       const user = isChecked.data;

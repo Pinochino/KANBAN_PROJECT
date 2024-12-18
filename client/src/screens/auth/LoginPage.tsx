@@ -8,6 +8,7 @@ import SocialLogin from './components/SocialLogin';
 import handleAPI from '@/apis/handleApi';
 import { useDispatch } from 'react-redux';
 import { addAuth } from '@/redux/reducers/authReducer';
+import { localDataNames } from '@/constants/AppInfos';
 const { Text, Title, Paragraph } = Typography;
 
 interface FormProps {
@@ -30,6 +31,10 @@ const LoginPage = () => {
             const res: any = await handleAPI('/auth/login', values, 'post');
             message.success(res.message)
             res.data && dispatch(addAuth(res.data));
+
+            if (isRemember) {
+                localStorage.setItem(localDataNames.authData, JSON.stringify(res.data));
+            }
 
         } catch (error: any) {
             message.error(error.message)
@@ -73,7 +78,9 @@ const LoginPage = () => {
                     </FormItem>
 
                     <div className="mt-4 mb-3">
-                        <Button type="primary" className="w-100" size="large" onClick={() => form.submit()}>
+                        <Button type="primary" className="w-100" size="large" onClick={() => form.submit()}
+                            loading={isLoading}
+                        >
                             Login
                         </Button>
                     </div>
@@ -82,7 +89,7 @@ const LoginPage = () => {
                 <div className="row">
                     <div className="col">
                         <Checkbox checked={isRemember} onChange={(e: any) => setIsRemember(e.target.checked)}>
-                            Remember
+                            Remember for 30 days
                         </Checkbox>
                     </div>
                     <div className="col">

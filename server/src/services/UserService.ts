@@ -1,6 +1,7 @@
 import { BadRequestError } from "../exceptions/exceptions";
 import UserModel from "../models/UserModel";
 import { CompareEncode, EncodedPassowrd } from "../utils/EncodedPassword";
+import { generatorRandomText } from "../utils/generatorRandomText";
 
 class UserService {
   
@@ -48,6 +49,28 @@ class UserService {
         checked: true,
         data: user,
       };
+    } catch (error: any) {
+      throw new BadRequestError({ message: `Error: ${error.message}` });
+    }
+  }
+
+  async loginWithGoogle(data: {
+    username: string;
+    email: string;
+  }) {
+    try {
+      const oldUser = await UserModel.findOne({ email: data.email });
+      
+      if (oldUser) {
+        throw new Error('This account have already been existed')
+      }
+      
+      const encodePassword = await EncodedPassowrd(generatorRandomText(6));
+      const user = await UserModel.create({
+        ...data,
+        password: encodePassword,
+      });
+      return user;
     } catch (error: any) {
       throw new BadRequestError({ message: `Error: ${error.message}` });
     }

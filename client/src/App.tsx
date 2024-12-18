@@ -13,6 +13,7 @@ message.config({
   prefixCls: 'my-message',
 });
 
+
 function App() {
   return (
     <>

@@ -15,9 +15,7 @@ app.use(errorHandler);
 connectDb(app);
 routers(app);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World')
-})
+
 
 const port = process.env.PORT;
 app.listen(port, () => {

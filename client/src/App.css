@@ -24,4 +24,8 @@ body{
   height: 2.5rem;
 }
 
+a, Link {
+  text-decoration: none;
+}
+
 

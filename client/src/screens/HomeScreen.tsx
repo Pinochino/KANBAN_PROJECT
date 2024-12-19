@@ -30,13 +30,12 @@ const HomeScreen = () => {
         try {
             const api = `/auth/refresh-token?id=${auth._id}`;
             const res = await handleAPI(api);
-            console.log(res);
+            // console.log(res);
             dispatch(refreshToken(res.data.token))
         } catch (error) {
             console.log(error);
         }
     };
-
 
     return (
         <div>

@@ -9,7 +9,6 @@ import handleAPI from '@/apis/handleApi';
 import { useDispatch } from 'react-redux';
 import { addAuth } from '@/redux/reducers/authReducer';
 import { localDataNames } from '@/constants/AppInfos';
-import { auth } from '@/firebase/firebaseConfig';
 const { Text, Title, Paragraph } = Typography;
 
 interface FormProps {

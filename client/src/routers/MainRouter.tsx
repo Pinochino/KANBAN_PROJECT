@@ -16,7 +16,7 @@ const MainRouter = () => {
                 <SiderComponent />
                 <Layout>
                     <HeaderComponent />
-                    <Content>
+                    <Content className='container mt-2 mb-2 bg-white'>
                         <Routes>
                             <Route path='/' element={<HomeScreen />} />
                             <Route path='/inventory' element={<InventoryScreen />} />

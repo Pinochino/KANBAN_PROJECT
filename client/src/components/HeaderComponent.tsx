@@ -11,7 +11,7 @@ const HeaderComponent: React.FC = () => {
             className='bg-white row p-2 container'
         >
             <div className="col">
-                <Input placeholder='Search...'
+                <Input placeholder='Search product, supplier'
                     prefix={<SearchOutlined className='text-muted' size={20} />}
                     style={{
                         borderRadius: 100,

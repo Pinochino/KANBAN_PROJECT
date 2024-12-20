@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.5.2",
+    "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cra-template-typescript": "1.2.0",

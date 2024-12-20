@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 export const verifyToken = async (req: any, res: Response, next: NextFunction) => {
     const header = req.headers?.authorization;
-    console.log('Authorization Header:', header);
     const accessToken = header ? header.split(' ')[1] : '';
 
     try {
@@ -18,7 +17,6 @@ export const verifyToken = async (req: any, res: Response, next: NextFunction) =
         if (!verify) {
             throw new Error("Invalid token");
         }
-        console.log(verify);
         req._id = verify._id;
 
         next();

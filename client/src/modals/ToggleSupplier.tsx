@@ -1,16 +1,19 @@
-import { colors } from '@/constants/colors';
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Form, Input, Modal, Select, Typography } from 'antd';
+import handleAPI from '@/apis/handleApi';
+import { SupplierModel } from '@/models/SupplierMode';
+import { replaceName } from '@/utils/replaceName';
+import uploadFile from '@/utils/uploadFile';
+import { Avatar, Button, Form, Input, message, Modal, Select, Typography } from 'antd';
 import { User } from 'iconsax-react';
-import React, { useRef } from 'react';
+import React from 'react';
+import { data } from 'react-router-dom';
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 interface AddSupplierProps {
     visible: boolean;
     onClose: () => void;
     onAddNew: (val: any) => void;
-    supplier?: any;
+    supplier?: SupplierModel;
 }
 
 const ToggleSupplier = (props: AddSupplierProps) => {
@@ -22,32 +25,46 @@ const ToggleSupplier = (props: AddSupplierProps) => {
 
     const [form] = Form.useForm();
     const inputRef = React.useRef<any>(null);
+    const api: string = `/supplier/add-new`;
 
-    const showLoading = () => {
-        setIsLoading(true);
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
-    };
 
     const addNewSupplier = async (values: any) => {
+        console.log(values);
         setIsLoading(true)
 
-        const data: any = {}
-        for (const i in values) {
-            data[i] = values[i] ?? '';
-        }
+        const data: any = {
+            name: values.name || '',
+            product: values.product || '', // ensure empty string if no product
+            categories: values.categories || '', // ensure empty string if no categories
+            price: values.price ? parseInt(values.price) : 0, // Default to 0 if no price
+            contact: values.contact || '', // Default to empty if no contact
+            isTaking: isTaking ? 1 : 0, // convert boolean to 1/0
+            slug: replaceName(values.name), // Generate a slug from name
+            photoUrl: values.photoUrl
+        };
+
+        console.log(data); // Debugging the data object
+
+        // for (const i in values) {
+        //     data[i] = values[i] ?? '';
+        // }
 
 
-        data.price = values.price ? parseInt(values.price) : 0;
-        data.isTaking = isTaking ? 1 : 0;
+        // data.price = values.price ? parseInt(values.price) : 0;
+        // data.isTaking = isTaking ? 1 : 0;
 
         console.log(data);
+        if (file) {
+            data.photoUrl = await uploadFile(file);
+        }
+        console.log(data.photoUrl);
 
+        data.slug = replaceName(values.name);
         try {
-            console.log(values);
-
+            const res: any = await handleAPI(api, data, 'post');
+            message.success(res.message);
+            onAddNew(res.data);
+            handleClose();
         } catch (error) {
             console.log(error);
         } finally {
@@ -62,10 +79,13 @@ const ToggleSupplier = (props: AddSupplierProps) => {
 
     return (
         <Modal
+            closable={!isLoading}
+            okButtonProps={{
+                loading: isLoading
+            }}
             title="Add Supplier"
             okText="Add Supplier"
             cancelText="Discard"
-            loading={isLoading}
             open={visible}
             onClose={handleClose}
             onCancel={handleClose}
@@ -76,7 +96,7 @@ const ToggleSupplier = (props: AddSupplierProps) => {
                     {file ? (
                         <Avatar size={100} src={URL.createObjectURL(file)} />
                     ) : (
-                        <Avatar size={100}>
+                        <Avatar size={100} >
                             <User size={80} />
                         </Avatar>
                     )}
@@ -91,6 +111,7 @@ const ToggleSupplier = (props: AddSupplierProps) => {
             </div>
 
             <Form
+                disabled={isLoading}
                 onFinish={addNewSupplier}
                 layout="horizontal"
                 form={form}
@@ -125,28 +146,31 @@ const ToggleSupplier = (props: AddSupplierProps) => {
                 </Form.Item>
                 <Form.Item label="Type" className="d-flex flex-direction-column">
                     <Button
+                        size='middle'
                         type={isTaking === false ? 'primary' : 'default'}
                         className="mb-2"
                         onClick={() => setTaking(false)}
                     >
                         Not Taking return
                     </Button>
-                    <Button type={isTaking ? 'primary' : 'default'} onClick={() => setTaking(true)}>
+                    <Button
+                        size='middle'
+                        type={isTaking ? 'primary' : 'default'} onClick={() => setTaking(true)}>
                         Taking return
                     </Button>
                 </Form.Item>
+                <div className="">
+                    {' '}
+                    <input
+                        type="file"
+                        name="photoUrl"
+                        ref={inputRef}
+                        id="inpFile"
+                        accept="image/*"
+                        onChange={(val: any) => setFile(val.target.files[0])}
+                    />
+                </div>
             </Form>
-            <div className="d-none">
-                {' '}
-                <input
-                    type="file"
-                    name=""
-                    ref={inputRef}
-                    id="inpFile"
-                    accept="image/*"
-                    onChange={(val: any) => setFile(val.target.files[0])}
-                />
-            </div>
         </Modal>
     );
 };

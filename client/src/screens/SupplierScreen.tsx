@@ -1,5 +1,6 @@
 import { colors } from '@/constants/colors';
 import { ToggleSupplier } from '@/modals';
+import { SupplierModel } from '@/models/SupplierMode';
 import { FilterFilled } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
 import Table, { ColumnProps } from 'antd/es/table';
@@ -9,7 +10,7 @@ const { Title } = Typography;
 const SupplierScreen = () => {
     const [open, setOpen] = React.useState<boolean>(false);
 
-    const columns: ColumnProps<any>[] = [];
+    const columns: ColumnProps<SupplierModel>[] = [];
 
     return (
         <>
@@ -23,18 +24,19 @@ const SupplierScreen = () => {
                         </div>
                         <div className="col text-right d-flex justify-content-end">
                             <Space>
-                                <Button type='primary' onClick={() => setOpen(true)}>Add Supplier</Button>
+                                <Button type="primary" onClick={() => setOpen(true)}>
+                                    Add Supplier
+                                </Button>
                                 <Button icon={<FilterFilled size={20} color={colors.gray600} />}>Filters</Button>
                                 <Button>Download all</Button>
                             </Space>
                         </div>
                     </div>
-
                 )}
             >
                 SupplierScreen
             </Table>
-            <ToggleSupplier visible={open} onClose={() => setOpen(false)} onAddNew={val => console.log(val)}/>
+            <ToggleSupplier visible={open} onClose={() => setOpen(false)} onAddNew={(val) => console.log(val)} />
         </>
     );
 };

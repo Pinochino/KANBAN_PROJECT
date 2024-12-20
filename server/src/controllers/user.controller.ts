@@ -68,7 +68,6 @@ class UserController {
       const user = isChecked.data;
       const userResponse: any = user.toObject ? user.toObject() : { ...user };
       delete userResponse.password;
-      console.log(userResponse);
       
       res.status(200).json({
         message: "Login successfully",
